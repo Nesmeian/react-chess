@@ -1,10 +1,11 @@
-# react-chess
-In this application I want to make Chess using react.
-Goals:
-- [+] (Setting project)
-- -[+] (vite + React + Ts)
-- -[+] (Eslint + Prittier)
-- [+]Add Routing
-- []Add Registration and Login Pages
-- []Add Game Page
-- []Add Chat
+# Chess Application with React
+
+## Goals:
+
+- [x] Setting project
+  - [x] Vite + React + TypeScript
+  - [x] ESLint + Prettier
+- [x] Add Routing
+- [ ] Add Registration and Login Pages
+- [ ] Add Game Page
+- [ ] Add Chat
