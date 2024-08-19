@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { myAppLink } from '../../Constants'
-export default function game() {
+export default function Game() {
     return (
         <>
             <h1>Hello it's game page</h1>
