@@ -1,38 +1,56 @@
 import { Link } from 'react-router-dom'
 import { myAppLink } from '../../Constants'
-import './index.css'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import styles from './style.module.scss'
+import { Box, Button } from '@mui/material'
+import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
+import CustomTextField from '../../utils/customTextField'
+import validationRulesFunc from '../../utils/validationRules'
+
 type Inputs = {
-    example: string
-    exampleRequired: string
+    firstName: string
+    lastName: string
 }
+
 export default function Login() {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<Inputs>()
+    const methods = useForm<Inputs>({ mode: 'onBlur' })
+    const { handleSubmit } = methods
+
     const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+
     return (
-        <>
+        <Box className={styles.jack}>
             <h1>Hello it's login page</h1>
-            <form
-                className="registration-page__form"
-                onSubmit={handleSubmit(onSubmit)}
-            >
-                <label>
-                    {' '}
-                    First Name:{' '}
-                    <input
-                        {...register('example', {
+            <FormProvider {...methods}>
+                <form
+                    className={styles.registration__form}
+                    onSubmit={handleSubmit(onSubmit)}
+                >
+                    <CustomTextField
+                        name="firstName"
+                        label="First Name"
+                        validationRules={validationRulesFunc({
+                            name: 'First Name',
                             required: true,
+                            minLength: 5,
+                            maxLength: 15,
                         })}
                     />
-                </label>
-                <div>{errors.example && 'This field is required'}</div>
-                <input type="submit" value={'Submit'} />
-            </form>
+                    <CustomTextField
+                        name="lastName"
+                        label="Last Name"
+                        validationRules={validationRulesFunc({
+                            name: 'Last Name',
+                            required: true,
+                            minLength: 5,
+                            maxLength: 15,
+                        })}
+                    />
+                    <Button variant="contained" type="submit">
+                        Submit
+                    </Button>
+                </form>
+            </FormProvider>
             <Link to={`${myAppLink}/`}>To Home page</Link>
-        </>
+        </Box>
     )
 }
