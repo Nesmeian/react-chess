@@ -33,11 +33,6 @@ export default function Login() {
                     <NameInput name="Password" />
                     <NameInput name="Confirm Password" type="password" />
                     <NameInput name="Mail" pattern="email" type="email" />
-                    {/* {errors.email && (
-                        <span className={styles.validation_message}>
-                            {errors.email.message}
-                        </span>
-                    )} */}
                     <Button
                         variant="contained"
                         type="submit"
@@ -53,21 +48,3 @@ export default function Login() {
         </Box>
     )
 }
-// function handleKeyDown(
-//     event: React.KeyboardEvent<HTMLInputElement>,
-//     index: number,
-//     inputRefs: React.MutableRefObject<(HTMLInputElement | null)[]>,
-//     handleSubmit: UseFormHandleSubmit<Inputs, undefined>,
-//     isValid: boolean,
-//     onSubmit: SubmitHandler<Inputs>
-// ) {
-//     if (event.key === 'Enter') {
-//         event.preventDefault() // предотвращаем отправку формы
-//         const nextInput = inputRefs.current[index + 1]
-//         if (nextInput) {
-//             nextInput.focus() // переводим фокус на следующее поле
-//         } else if (isValid) {
-//             handleSubmit(onSubmit)() // если все инпуты заполнены, отправляем форму
-//         }
-//     }
-// }

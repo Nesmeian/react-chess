@@ -29,16 +29,15 @@ export default function validationRulesFunc(options: validationRulesParams) {
           }
         : undefined
     const pattern =
-        options.pattern === 'email'
+        typeof options.pattern === 'string' && options.pattern === 'email'
             ? {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message:
-                      'Invalid email address. Please enter a valid email that contains only English letters, numbers, and valid symbols.',
+                  message: 'Invalid email address. Please enter a valid email.',
               }
-            : options.pattern
+            : options.pattern === true
               ? {
-                    value: /\[a-zA-Z]+/,
-                    message: `${name} must contain only English letters.`,
+                    value: /^[a-zA-Z]+$/,
+                    message: `${capitalizeFirstLetterOfEachWord(name)} must contain only English letters.`,
                 }
               : undefined
     return {
