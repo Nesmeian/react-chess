@@ -1,10 +1,11 @@
-import capitalizeFirstLetterOfEachWord from '../capitalizeFirstLetter'
+import capitalizeFirstLetterOfEachWord from '../../capitalizeFirstLetter'
 
 interface validationRulesParams {
     name?: string
     required?: string | boolean
     minLength?: number | string
     maxLength?: number | string
+    pattern?: string | boolean
 }
 export default function validationRulesFunc(options: validationRulesParams) {
     const name = options.name ? options.name : 'Input'
@@ -27,9 +28,23 @@ export default function validationRulesFunc(options: validationRulesParams) {
               message: `Max Length of ${name} must be ${options.maxLength}`,
           }
         : undefined
+    const pattern =
+        options.pattern === 'email'
+            ? {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message:
+                      'Invalid email address. Please enter a valid email that contains only English letters, numbers, and valid symbols.',
+              }
+            : options.pattern
+              ? {
+                    value: /\[a-zA-Z]+/,
+                    message: `${name} must contain only English letters.`,
+                }
+              : undefined
     return {
         required,
         minLength,
         maxLength,
+        pattern,
     }
 }

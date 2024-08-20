@@ -4,11 +4,13 @@ import { useFormContext } from 'react-hook-form'
 interface CustomTextFieldProps {
     name: string
     label: string
+    type: string
     validationRules?: object
 }
 export default function CustomTextField({
     name,
     label,
+    type,
     validationRules = {},
 }: CustomTextFieldProps) {
     const {
@@ -20,6 +22,7 @@ export default function CustomTextField({
             id={`${name}-input`}
             label={label}
             variant="outlined"
+            type={type}
             {...register(name, validationRules)}
             error={!!errors[name]}
             helperText={

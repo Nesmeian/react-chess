@@ -3,54 +3,71 @@ import { myAppLink } from '../../Constants'
 import styles from './style.module.scss'
 import { Box, Button } from '@mui/material'
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
-import CustomTextField from '../../utils/customTextField'
-import validationRulesFunc from '../../utils/validationRules'
-
-type Inputs = {
+import { NameInput } from '../../utils/validation/validationInputs'
+interface LoginFormInputs {
     firstName: string
     lastName: string
+    password: string
+    confirmPassword: string
+    email: string
 }
-
 export default function Login() {
-    const methods = useForm<Inputs>({ mode: 'onBlur' })
-    const { handleSubmit } = methods
+    const methods = useForm<LoginFormInputs>({
+        mode: 'onChange',
+        criteriaMode: 'all',
+    })
+    const { handleSubmit, formState } = methods
+    const { isValid } = formState
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
-
+    const onSubmit: SubmitHandler<LoginFormInputs> = (data) => console.log(data)
     return (
         <Box className={styles.jack}>
-            <h1>Hello it's login page</h1>
             <FormProvider {...methods}>
                 <form
                     className={styles.registration__form}
                     onSubmit={handleSubmit(onSubmit)}
                 >
-                    <CustomTextField
-                        name="firstName"
-                        label="First Name"
-                        validationRules={validationRulesFunc({
-                            name: 'First Name',
-                            required: true,
-                            minLength: 5,
-                            maxLength: 15,
-                        })}
-                    />
-                    <CustomTextField
-                        name="lastName"
-                        label="Last Name"
-                        validationRules={validationRulesFunc({
-                            name: 'Last Name',
-                            required: true,
-                            minLength: 5,
-                            maxLength: 15,
-                        })}
-                    />
-                    <Button variant="contained" type="submit">
+                    <h1 className={styles.registration__title}>Registration</h1>
+                    <NameInput name="First Name" />
+                    <NameInput name="Last Name" />
+                    <NameInput name="Password" />
+                    <NameInput name="Confirm Password" type="password" />
+                    <NameInput name="Mail" pattern="email" type="email" />
+                    {/* {errors.email && (
+                        <span className={styles.validation_message}>
+                            {errors.email.message}
+                        </span>
+                    )} */}
+                    <Button
+                        variant="contained"
+                        type="submit"
+                        disabled={!isValid}
+                    >
                         Submit
                     </Button>
                 </form>
             </FormProvider>
-            <Link to={`${myAppLink}/`}>To Home page</Link>
+            <div>
+                <Link to={`${myAppLink}/`}>To Home page</Link>
+            </div>
         </Box>
     )
 }
+// function handleKeyDown(
+//     event: React.KeyboardEvent<HTMLInputElement>,
+//     index: number,
+//     inputRefs: React.MutableRefObject<(HTMLInputElement | null)[]>,
+//     handleSubmit: UseFormHandleSubmit<Inputs, undefined>,
+//     isValid: boolean,
+//     onSubmit: SubmitHandler<Inputs>
+// ) {
+//     if (event.key === 'Enter') {
+//         event.preventDefault() // предотвращаем отправку формы
+//         const nextInput = inputRefs.current[index + 1]
+//         if (nextInput) {
+//             nextInput.focus() // переводим фокус на следующее поле
+//         } else if (isValid) {
+//             handleSubmit(onSubmit)() // если все инпуты заполнены, отправляем форму
+//         }
+//     }
+// }
