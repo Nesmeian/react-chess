@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { myAppLink } from '../../Constants'
-export default function signIn() {
+export default function SignIn() {
     return (
         <>
             <h1>Hello it's sign in page</h1>
