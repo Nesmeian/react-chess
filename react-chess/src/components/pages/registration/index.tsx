@@ -4,22 +4,23 @@ import styles from './style.module.scss'
 import { Box, Button } from '@mui/material'
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
 import { NameInput } from '../../utils/validation/validationInputs'
-interface LoginFormInputs {
+interface RegisrtarionFormInputs {
     firstName: string
     lastName: string
     password: string
     confirmPassword: string
     email: string
 }
-export default function Login() {
-    const methods = useForm<LoginFormInputs>({
+export default function Regisrtarion() {
+    const methods = useForm<RegisrtarionFormInputs>({
         mode: 'onChange',
         criteriaMode: 'all',
     })
     const { handleSubmit, formState } = methods
     const { isValid } = formState
 
-    const onSubmit: SubmitHandler<LoginFormInputs> = (data) => console.log(data)
+    const onSubmit: SubmitHandler<RegisrtarionFormInputs> = (data) =>
+        console.log(data)
     return (
         <Box className={styles.jack}>
             <FormProvider {...methods}>

@@ -4,7 +4,7 @@ import App from './App.tsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Game from './components/pages/game/index.tsx'
-import Login from './components/pages/login/index.tsx'
+import Registration from './components/pages/registration/index.tsx'
 import { myAppLink } from './components/Constants/index.tsx'
 import SignIn from './components/pages/signIn/index.tsx'
 import ErrorElement from './components/pages/404/index.tsx'
@@ -19,8 +19,8 @@ const router = createBrowserRouter([
         element: <Game />,
     },
     {
-        path: `${myAppLink}/login`,
-        element: <Login />,
+        path: `${myAppLink}/registration`,
+        element: <Registration />,
     },
     {
         path: `${myAppLink}/signIn`,
