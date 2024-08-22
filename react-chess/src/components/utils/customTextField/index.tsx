@@ -5,13 +5,11 @@ interface CustomTextFieldProps {
     name: string
     label: string
     type: string
-    validationRules?: object
 }
 export default function CustomTextField({
     name,
     label,
     type,
-    validationRules = {},
 }: CustomTextFieldProps) {
     const {
         register,
@@ -23,7 +21,7 @@ export default function CustomTextField({
             label={label}
             variant="outlined"
             type={type}
-            {...register(name, validationRules)}
+            {...register(name)}
             error={!!errors[name]}
             helperText={
                 typeof errors[name]?.message === 'string'
