@@ -1,15 +1,18 @@
 import { TextField } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
-
 interface CustomTextFieldProps {
     name: string
     label: string
     type: string
+    inputRef?: React.RefCallback<HTMLInputElement>
+    onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
 }
 export default function CustomTextField({
     name,
     label,
     type,
+    inputRef,
+    onKeyDown,
 }: CustomTextFieldProps) {
     const {
         register,
@@ -28,6 +31,8 @@ export default function CustomTextField({
                     ? errors[name]?.message
                     : ''
             }
+            inputRef={inputRef}
+            onKeyDown={onKeyDown}
         />
     )
 }
