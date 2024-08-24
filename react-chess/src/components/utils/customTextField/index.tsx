@@ -1,5 +1,6 @@
 import { TextField } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
+
 interface CustomTextFieldProps {
     name: string
     label: string
@@ -7,6 +8,7 @@ interface CustomTextFieldProps {
     inputRef?: React.RefCallback<HTMLInputElement>
     onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
 }
+
 export default function CustomTextField({
     name,
     label,
@@ -18,6 +20,7 @@ export default function CustomTextField({
         register,
         formState: { errors },
     } = useFormContext()
+    // Объединение классов
     return (
         <TextField
             id={`${name}-input`}
@@ -31,6 +34,15 @@ export default function CustomTextField({
                     ? errors[name]?.message
                     : ''
             }
+            InputProps={{
+                sx: {
+                    // fontFamily: 'Open Sans', 'sans-serif', 'FontAwesome',
+                    color: 'rgb(52, 56, 61)',
+                }, // Цвет текста внутри TextField
+            }}
+            InputLabelProps={{
+                sx: { color: 'rgb(52, 56, 61)' }, // Цвет метки (label)
+            }}
             inputRef={inputRef}
             onKeyDown={onKeyDown}
         />

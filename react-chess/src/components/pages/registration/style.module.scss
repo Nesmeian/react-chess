@@ -1,3 +1,11 @@
+// body {
+//     background: rgb(52, 56, 61);
+// }
+.labelJack,
+.inputJack {
+    background-color: yellow;
+    color: black;
+}
 .registration__form {
     border: 1px solid black;
     padding: 40px;
@@ -7,12 +15,11 @@
     flex-direction: column;
     justify-content: space-around;
     gap: 20px;
+    color: white;
+    background: rgb(28, 30, 33);
 }
-.registrationInputs {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
+
 .registration__title {
+    color: rgb(255, 255, 255);
     font-size: 18px;
 }

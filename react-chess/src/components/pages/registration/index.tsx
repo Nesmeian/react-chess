@@ -51,19 +51,35 @@ export default function Registration() {
     )
 
     const fields = [
-        { name: 'firstName', label: 'First Name', type: 'text' },
-        { name: 'lastName', label: 'Last Name', type: 'text' },
-        { name: 'password', label: 'Password', type: 'password' },
+        {
+            name: 'firstName',
+            label: 'First Name',
+            type: 'text',
+        },
+        {
+            name: 'lastName',
+            label: 'Last Name',
+            type: 'text',
+        },
+        {
+            name: 'password',
+            label: 'Password',
+            type: 'password',
+        },
         {
             name: 'confirmPassword',
             label: 'Confirm Password',
             type: 'password',
         },
-        { name: 'email', label: 'Email', type: 'email' },
+        {
+            name: 'email',
+            label: 'Email',
+            type: 'email',
+        },
     ]
 
     return (
-        <Box className={styles.jack}>
+        <Box>
             <FormProvider {...methods}>
                 <form
                     className={styles.registration__form}
@@ -77,7 +93,7 @@ export default function Registration() {
                             label={field.label}
                             type={field.type}
                             inputRef={(el) => (inputRefs.current[index] = el)}
-                            onKeyDown={(e) => handleKeyDown(e, index)} // Обработчик нажатия клавиши
+                            onKeyDown={(e) => handleKeyDown(e, index)}
                         />
                     ))}
                     <Button
