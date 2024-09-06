@@ -1,8 +1,8 @@
 import React, { useRef, useCallback } from 'react'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { myAppLink } from '../../Constants'
 import styles from './style.module.scss'
-import { Box, Button } from '@mui/material'
+import { Box, Button, Link } from '@mui/material'
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
 import { validationSchema } from '../../utils/validation/yupSchema'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -77,9 +77,8 @@ export default function Registration() {
             type: 'email',
         },
     ]
-
     return (
-        <Box>
+        <Box sx={{ backgroundColor: 'background.default' }}>
             <FormProvider {...methods}>
                 <form
                     className={styles.registration__form}
@@ -96,6 +95,7 @@ export default function Registration() {
                             onKeyDown={(e) => handleKeyDown(e, index)}
                         />
                     ))}
+
                     <Button
                         variant="contained"
                         type="submit"
@@ -105,9 +105,9 @@ export default function Registration() {
                     </Button>
                 </form>
             </FormProvider>
-            <div>
-                <Link to={`${myAppLink}/`}>To Home page</Link>
-            </div>
+            <Link component={RouterLink} to={`${myAppLink}/`}>
+                To Home page
+            </Link>
         </Box>
     )
 }

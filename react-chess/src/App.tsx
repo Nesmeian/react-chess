@@ -1,20 +1,35 @@
-import { Link } from 'react-router-dom'
-import './App.scss'
+import { Box, Link, ThemeProvider } from '@mui/material'
+import { Link as RouterLink } from 'react-router-dom'
+// import styles from './style.module.scss'
 import { myAppLink } from './components/Constants'
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
+import { Typography } from '@mui/material'
+import theme from './components/utils/theme'
 function App() {
     return (
         <>
-            <h1>Hello it's Home page</h1>
-            <div className="links">
-                <Link to={`${myAppLink}/game`}>Go to Game Page</Link>
-                <Link to={`${myAppLink}/registration`}>
+            <Typography variant="h1" color="primary">
+                Hello it's Home page
+            </Typography>
+
+            <Box>
+                <Link component={RouterLink} to={`${myAppLink}/game`}>
+                    Go to Game Page
+                </Link>
+                <Link component={RouterLink} to={`${myAppLink}/registration`}>
                     Go to Registration Page
                 </Link>
-                <Link to={`${myAppLink}/signIn`}>Go to SignIn Page</Link>
-            </div>
+                <Link component={RouterLink} to={`${myAppLink}/signIn`}>
+                    Go to SignIn Page
+                </Link>
+            </Box>
         </>
     )
 }
 
-export default App
+export default function ToggleColorMode() {
+    return (
+        <ThemeProvider theme={theme}>
+            <App />
+        </ThemeProvider>
+    )
+}

@@ -20,7 +20,6 @@ export default function CustomTextField({
         register,
         formState: { errors },
     } = useFormContext()
-    // Объединение классов
     return (
         <TextField
             id={`${name}-input`}
@@ -34,15 +33,7 @@ export default function CustomTextField({
                     ? errors[name]?.message
                     : ''
             }
-            InputProps={{
-                sx: {
-                    // fontFamily: 'Open Sans', 'sans-serif', 'FontAwesome',
-                    color: 'rgb(52, 56, 61)',
-                }, // Цвет текста внутри TextField
-            }}
-            InputLabelProps={{
-                sx: { color: 'rgb(52, 56, 61)' }, // Цвет метки (label)
-            }}
+            color="primary"
             inputRef={inputRef}
             onKeyDown={onKeyDown}
         />
