@@ -1,9 +1,9 @@
 import { Box, Link, ThemeProvider } from '@mui/material'
 import { Link as RouterLink } from 'react-router-dom'
-// import styles from './style.module.scss'
-import { myAppLink } from './components/Constants'
+import { myAppLink } from '../components/Constants'
 import { Typography } from '@mui/material'
-import theme from './components/utils/theme'
+import theme from '../components/utils/theme'
+import style from './style.module.scss'
 function App() {
     return (
         <>
@@ -11,7 +11,7 @@ function App() {
                 Hello it's Home page
             </Typography>
 
-            <Box>
+            <Box className={style.links}>
                 <Link component={RouterLink} to={`${myAppLink}/game`}>
                     Go to Game Page
                 </Link>
