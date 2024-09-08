@@ -83,8 +83,8 @@ export default function Registration() {
             // sx={{ backgroundColor: 'background.default' }}
             className={styles.registration__wrapper}
         >
-            <Box>
-                <Header />
+            <Header />
+            <Box className={styles.regisration__container}>
                 <FormProvider {...methods}>
                     <form
                         className={styles.registration__form}
