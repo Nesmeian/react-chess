@@ -3,25 +3,22 @@ import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
-import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu'
 import { Link as LinkRouter, useLocation } from 'react-router-dom'
 import { myAppLink } from '../../Constants'
+import styles from './styles.module.scss'
+import logo from '../../assets/images/smile_logo.jpg'
 export default function Header() {
     const location = useLocation()
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
+                    <img
+                        src={logo}
+                        alt="Logo"
+                        width={40}
+                        style={{ borderRadius: '50%' }}
+                    ></img>
                     <Typography
                         variant="h6"
                         component="div"
@@ -51,13 +48,22 @@ export default function Header() {
                         location.pathname === `${myAppLink}/registration` ||
                         location.pathname === `${myAppLink}/login`
                     ) && (
-                        <Link
-                            component={LinkRouter}
-                            to={`${myAppLink}/`}
-                            color="inherit"
-                        >
-                            Home
-                        </Link>
+                        <Box className={styles.links__container}>
+                            <Link
+                                component={LinkRouter}
+                                to={`${myAppLink}/registration`}
+                                color="inherit"
+                            >
+                                Registration
+                            </Link>
+                            <Link
+                                component={LinkRouter}
+                                to={`${myAppLink}/login`}
+                                color="inherit"
+                            >
+                                Login
+                            </Link>
+                        </Box>
                     )}
                 </Toolbar>
             </AppBar>
