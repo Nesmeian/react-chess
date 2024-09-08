@@ -10,7 +10,7 @@ import ErrorElement from './components/pages/404/index.tsx'
 import { ThemeProvider } from '@mui/material/styles'
 import theme from './components/utils/theme/index.tsx'
 import { CssBaseline, Paper } from '@mui/material'
-import Login from './components/pages/Login/index.tsx'
+import Login from './components/pages/login/index.tsx'
 const router = createBrowserRouter([
     {
         path: `${myAppLink}/`,
