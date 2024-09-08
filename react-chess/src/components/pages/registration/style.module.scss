@@ -20,3 +20,8 @@
     flex-direction: column;
     justify-content: center;
 }
+@media (max-width: 768px) {
+    .registration__form {
+        width: 90%;
+    }
+}
