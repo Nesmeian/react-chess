@@ -2,11 +2,13 @@ import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
+import Link from '@mui/material/Link'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
-
+import { Link as LinkRouter, useLocation } from 'react-router-dom'
+import { myAppLink } from '../../Constants'
 export default function Header() {
+    const location = useLocation()
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -27,7 +29,36 @@ export default function Header() {
                     >
                         News
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {location.pathname === `${myAppLink}/login` && (
+                        <Link
+                            color="inherit"
+                            component={LinkRouter}
+                            to={`${myAppLink}/registration`}
+                        >
+                            Registration
+                        </Link>
+                    )}
+                    {location.pathname === `${myAppLink}/registration` && (
+                        <Link
+                            component={LinkRouter}
+                            to={`${myAppLink}/login`}
+                            color="inherit"
+                        >
+                            Login
+                        </Link>
+                    )}
+                    {!(
+                        location.pathname === `${myAppLink}/registration` ||
+                        location.pathname === `${myAppLink}/login`
+                    ) && (
+                        <Link
+                            component={LinkRouter}
+                            to={`${myAppLink}/`}
+                            color="inherit"
+                        >
+                            Home
+                        </Link>
+                    )}
                 </Toolbar>
             </AppBar>
         </Box>

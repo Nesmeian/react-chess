@@ -20,12 +20,12 @@ export default function CustomTextField({
         register,
         formState: { errors },
     } = useFormContext()
-    const isSmallScreen = useMediaQuery('(max-width:768px)')
+    const isTableScreen = useMediaQuery('(max-width:768px)')
     return (
         <TextField
             id={`${name}-input`}
             label={label}
-            variant={isSmallScreen ? 'filled' : 'outlined'}
+            variant={isTableScreen ? 'filled' : 'outlined'}
             type={type}
             {...register(name)}
             error={!!errors[name]}

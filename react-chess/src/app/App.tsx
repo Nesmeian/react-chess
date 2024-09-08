@@ -9,19 +9,19 @@ function App() {
     return (
         <>
             <Header />
-            <Typography variant="h1" color="primary">
-                Hello it's Home page
-            </Typography>
 
             <Box className={style.links}>
+                <Typography variant="h1" color="primary">
+                    Hello it's Home page
+                </Typography>
                 <Link component={RouterLink} to={`${myAppLink}/game`}>
                     Go to Game Page
                 </Link>
                 <Link component={RouterLink} to={`${myAppLink}/registration`}>
                     Go to Registration Page
                 </Link>
-                <Link component={RouterLink} to={`${myAppLink}/signIn`}>
-                    Go to SignIn Page
+                <Link component={RouterLink} to={`${myAppLink}/login`}>
+                    Go to Login Page
                 </Link>
             </Box>
         </>

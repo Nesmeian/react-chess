@@ -6,11 +6,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Game from './components/pages/game/index.tsx'
 import Registration from './components/pages/registration/index.tsx'
 import { myAppLink } from './components/Constants/index.tsx'
-import SignIn from './components/pages/signIn/index.tsx'
 import ErrorElement from './components/pages/404/index.tsx'
 import { ThemeProvider } from '@mui/material/styles'
 import theme from './components/utils/theme/index.tsx'
 import { CssBaseline, Paper } from '@mui/material'
+import Login from './components/pages/Login/index.tsx'
 const router = createBrowserRouter([
     {
         path: `${myAppLink}/`,
@@ -26,8 +26,8 @@ const router = createBrowserRouter([
         element: <Registration />,
     },
     {
-        path: `${myAppLink}/signIn`,
-        element: <SignIn />,
+        path: `${myAppLink}/login`,
+        element: <Login />,
     },
     {
         path: '*',
