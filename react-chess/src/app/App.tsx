@@ -4,9 +4,11 @@ import { myAppLink } from '../components/Constants'
 import { Typography } from '@mui/material'
 import theme from '../components/utils/theme'
 import style from './style.module.scss'
+import Header from '../components/loyalt/header'
 function App() {
     return (
         <>
+            <Header />
             <Typography variant="h1" color="primary">
                 Hello it's Home page
             </Typography>

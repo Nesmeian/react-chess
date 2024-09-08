@@ -2,11 +2,12 @@ import React, { useRef, useCallback } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { myAppLink } from '../../Constants'
 import styles from './style.module.scss'
-import { Box, Button, Link } from '@mui/material'
+import { Box, Button, Link, Typography } from '@mui/material'
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
 import { validationSchema } from '../../utils/validation/yupSchema'
 import { yupResolver } from '@hookform/resolvers/yup'
 import CustomTextField from '../../utils/customTextField'
+import Header from '../../loyalt/header'
 
 interface RegistrationFormInputs {
     firstName: string
@@ -78,33 +79,46 @@ export default function Registration() {
         },
     ]
     return (
-        <Box sx={{ backgroundColor: 'background.default' }}>
-            <FormProvider {...methods}>
-                <form
-                    className={styles.registration__form}
-                    onSubmit={handleSubmit(onSubmit)}
-                >
-                    <h1 className={styles.registration__title}>Registration</h1>
-                    {fields.map((field, index) => (
-                        <CustomTextField
-                            key={field.name}
-                            name={field.name}
-                            label={field.label}
-                            type={field.type}
-                            inputRef={(el) => (inputRefs.current[index] = el)}
-                            onKeyDown={(e) => handleKeyDown(e, index)}
-                        />
-                    ))}
-
-                    <Button
-                        variant="contained"
-                        type="submit"
-                        disabled={!isValid} // Кнопка отключена, если форма не валидна
+        <Box
+            // sx={{ backgroundColor: 'background.default' }}
+            className={styles.registration__wrapper}
+        >
+            <Box>
+                <Header />
+                <FormProvider {...methods}>
+                    <form
+                        className={styles.registration__form}
+                        onSubmit={handleSubmit(onSubmit)}
                     >
-                        Submit
-                    </Button>
-                </form>
-            </FormProvider>
+                        <Typography
+                            variant="h1"
+                            className={styles.registration__title}
+                        >
+                            Registration
+                        </Typography>
+                        {fields.map((field, index) => (
+                            <CustomTextField
+                                key={field.name}
+                                name={field.name}
+                                label={field.label}
+                                type={field.type}
+                                inputRef={(el) =>
+                                    (inputRefs.current[index] = el)
+                                }
+                                onKeyDown={(e) => handleKeyDown(e, index)}
+                            />
+                        ))}
+
+                        <Button
+                            variant="contained"
+                            type="submit"
+                            disabled={!isValid} // Кнопка отключена, если форма не валидна
+                        >
+                            Submit
+                        </Button>
+                    </form>
+                </FormProvider>
+            </Box>
             <Link component={RouterLink} to={`${myAppLink}/`}>
                 To Home page
             </Link>

@@ -13,7 +13,6 @@ const theme = createTheme({
         MuiButton: themeButton(),
         MuiLink: themeLink(themeMode),
     },
-
     typography: themeTypography(),
 })
 export default theme

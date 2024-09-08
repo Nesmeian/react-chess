@@ -39,7 +39,7 @@ createRoot(document.getElementById('root')!).render(
         <CssBaseline />
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Paper>
+            <Paper elevation={12} sx={{ height: '100%' }}>
                 <RouterProvider router={router} />
             </Paper>
         </ThemeProvider>
