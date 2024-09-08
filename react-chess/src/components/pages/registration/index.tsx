@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { myAppLink } from '../../Constants'
 import styles from './style.module.scss'
 import { Box, Button, Link, Typography } from '@mui/material'
@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import CustomTextField from '../../utils/customTextField'
 import Header from '../../loyalt/header'
 import Swal from 'sweetalert2'
+
 interface RegistrationFormInputs {
     firstName: string
     lastName: string
@@ -18,6 +19,7 @@ interface RegistrationFormInputs {
 }
 
 export default function Registration() {
+    const navigate = useNavigate() // Hook for navigation
     const methods = useForm<RegistrationFormInputs>({
         mode: 'onChange',
         criteriaMode: 'all',
@@ -29,7 +31,7 @@ export default function Registration() {
     const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
     const onSubmit: SubmitHandler<RegistrationFormInputs> = useCallback(
-        (data) => {
+        async (data) => {
             const dataName = `${data.email} ${data.firstName} ${data.lastName}`
             if (localStorage.getItem(dataName)) {
                 Swal.fire({
@@ -38,18 +40,19 @@ export default function Registration() {
                     showConfirmButton: false,
                     timer: 1500,
                 })
-                console.log(1)
             } else {
-                Swal.fire({
+                await Swal.fire({
                     icon: 'success',
-                    title: 'This email is already used',
+                    title: 'Registration successful',
                     showConfirmButton: false,
                     timer: 1500,
+                }).then(() => {
+                    localStorage.setItem(dataName, JSON.stringify(data))
+                    navigate(`${myAppLink}/`) // Redirect to home page
                 })
             }
-            localStorage.setItem(dataName, JSON.stringify(data))
         },
-        []
+        [navigate]
     )
 
     const handleKeyDown = useCallback(
@@ -95,6 +98,7 @@ export default function Registration() {
             type: 'email',
         },
     ]
+
     return (
         <Box className={styles.registration__wrapper}>
             <Header />
