@@ -1,10 +1,15 @@
-import { Link } from 'react-router-dom'
+import { Link as LinkRouter } from 'react-router-dom'
 import { myAppLink } from '../../Constants'
+import Header from '../../loyalt/header'
+import { Link, Typography } from '@mui/material'
 export default function Game() {
     return (
         <>
-            <h1>Hello it's game page</h1>
-            <Link to={`${myAppLink}/`}>To Home page</Link>
+            <Header />
+            <Typography variant="h1">Hello it's game page</Typography>
+            <Link component={LinkRouter} to={`${myAppLink}/`}>
+                Go back to Home
+            </Link>
         </>
     )
 }

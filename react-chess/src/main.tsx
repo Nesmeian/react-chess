@@ -1,13 +1,16 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import App from './app/App.tsx'
+import './style.scss'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Game from './components/pages/game/index.tsx'
-import Login from './components/pages/login/index.tsx'
+import Registration from './components/pages/registration/index.tsx'
 import { myAppLink } from './components/Constants/index.tsx'
-import SignIn from './components/pages/signIn/index.tsx'
 import ErrorElement from './components/pages/404/index.tsx'
+import { ThemeProvider } from '@mui/material/styles'
+import theme from './components/utils/theme/index.tsx'
+import { CssBaseline, Paper } from '@mui/material'
+import Login from './components/pages/Login/index.tsx'
 const router = createBrowserRouter([
     {
         path: `${myAppLink}/`,
@@ -19,20 +22,26 @@ const router = createBrowserRouter([
         element: <Game />,
     },
     {
+        path: `${myAppLink}/registration`,
+        element: <Registration />,
+    },
+    {
         path: `${myAppLink}/login`,
         element: <Login />,
     },
     {
-        path: `${myAppLink}/signIn`,
-        element: <SignIn />,
-    },
-    {
-        path: '*', // Обработка всех несуществующих маршрутов
+        path: '*',
         element: <ErrorElement />,
     },
 ])
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <RouterProvider router={router} />
+        <CssBaseline />
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Paper elevation={12} sx={{ height: '100%' }}>
+                <RouterProvider router={router} />
+            </Paper>
+        </ThemeProvider>
     </StrictMode>
 )

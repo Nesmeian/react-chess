@@ -1,0 +1,37 @@
+import { Box, Link, ThemeProvider } from '@mui/material'
+import { Link as RouterLink } from 'react-router-dom'
+import { myAppLink } from '../components/Constants'
+import { Typography } from '@mui/material'
+import theme from '../components/utils/theme'
+import style from './style.module.scss'
+import Header from '../components/loyalt/header'
+function App() {
+    return (
+        <>
+            <Header />
+
+            <Box className={style.links}>
+                <Typography variant="h1" color="primary">
+                    Hello it's Home page
+                </Typography>
+                <Link component={RouterLink} to={`${myAppLink}/game`}>
+                    Go to Game Page
+                </Link>
+                <Link component={RouterLink} to={`${myAppLink}/registration`}>
+                    Go to Registration Page
+                </Link>
+                <Link component={RouterLink} to={`${myAppLink}/login`}>
+                    Go to Login Page
+                </Link>
+            </Box>
+        </>
+    )
+}
+
+export default function ToggleColorMode() {
+    return (
+        <ThemeProvider theme={theme}>
+            <App />
+        </ThemeProvider>
+    )
+}
