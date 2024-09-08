@@ -8,7 +8,7 @@ import { validationSchema } from '../../utils/validation/yupSchema'
 import { yupResolver } from '@hookform/resolvers/yup'
 import CustomTextField from '../../utils/customTextField'
 import Header from '../../loyalt/header'
-
+import Swal from 'sweetalert2'
 interface RegistrationFormInputs {
     firstName: string
     lastName: string
@@ -31,7 +31,22 @@ export default function Registration() {
     const onSubmit: SubmitHandler<RegistrationFormInputs> = useCallback(
         (data) => {
             const dataName = `${data.email} ${data.firstName} ${data.lastName}`
-            console.log(data.email)
+            if (localStorage.getItem(dataName)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'This email is already used',
+                    showConfirmButton: false,
+                    timer: 1500,
+                })
+                console.log(1)
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'This email is already used',
+                    showConfirmButton: false,
+                    timer: 1500,
+                })
+            }
             localStorage.setItem(dataName, JSON.stringify(data))
         },
         []
