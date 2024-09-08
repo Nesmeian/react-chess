@@ -30,7 +30,9 @@ export default function Registration() {
 
     const onSubmit: SubmitHandler<RegistrationFormInputs> = useCallback(
         (data) => {
-            console.log(data)
+            const dataName = `${data.email} ${data.firstName} ${data.lastName}`
+            console.log(data.email)
+            localStorage.setItem(dataName, JSON.stringify(data))
         },
         []
     )
