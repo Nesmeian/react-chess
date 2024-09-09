@@ -10,6 +10,7 @@ import CustomTextField from '../../utils/customTextField'
 import Header from '../../loyalt/header'
 import Swal from 'sweetalert2'
 import inputFields from './inputData'
+import checkUsers from '../../localStorage'
 
 interface RegistrationFormInputs {
     firstName: string
@@ -17,7 +18,7 @@ interface RegistrationFormInputs {
     password: string
     confirmPassword: string
     email: string
-    nickname?: string | undefined | null
+    nickname?: string | null
 }
 
 export default function Registration() {
@@ -32,13 +33,40 @@ export default function Registration() {
 
     const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
+    const checkAuthUsers = (property: string, value: string): boolean => {
+        const storedData = localStorage.getItem('AuthUsers')
+        if (!storedData) {
+            return false
+        }
+
+        const authUsers: { [key: string]: string }[] = JSON.parse(storedData)
+        return authUsers.some((el) => el[property] === value)
+    }
+
     const onSubmit: SubmitHandler<RegistrationFormInputs> = useCallback(
         async (data) => {
-            const dataName = `${data.email} ${data.firstName} ${data.lastName}`
-            if (localStorage.getItem(dataName)) {
-                Swal.fire({
+            checkUsers()
+
+            const storedData = localStorage.getItem('AuthUsers')
+            const nickname: string | null | undefined = data.nickname
+
+            const authUsers: { email: string; nickname: string }[] = storedData
+                ? Array.isArray(JSON.parse(storedData))
+                    ? JSON.parse(storedData)
+                    : []
+                : []
+
+            if (checkAuthUsers('email', data.email)) {
+                await Swal.fire({
                     icon: 'error',
                     title: 'This email is already used',
+                    showConfirmButton: false,
+                    timer: 1500,
+                })
+            } else if (nickname && checkAuthUsers('nickname', nickname)) {
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'This nickname is already used',
                     showConfirmButton: false,
                     timer: 1500,
                 })
@@ -49,8 +77,16 @@ export default function Registration() {
                     showConfirmButton: false,
                     timer: 1500,
                 }).then(() => {
-                    localStorage.setItem(dataName, JSON.stringify(data))
-                    navigate(`${myAppLink}/`) // Redirect to home page
+                    const userToAdd = {
+                        email: data.email,
+                        nickname: data.nickname || '',
+                        password: data.password,
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                    }
+                    authUsers.push(userToAdd)
+                    localStorage.setItem('AuthUsers', JSON.stringify(authUsers))
+                    navigate(`${myAppLink}/`)
                 })
             }
         },
@@ -104,7 +140,7 @@ export default function Registration() {
                         <Button
                             variant="contained"
                             type="submit"
-                            disabled={!isValid} // Кнопка отключена, если форма не валидна
+                            disabled={!isValid}
                         >
                             Submit
                         </Button>
