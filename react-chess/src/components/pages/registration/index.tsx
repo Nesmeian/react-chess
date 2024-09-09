@@ -97,6 +97,7 @@ export default function Registration() {
                                 inputRef={(el) =>
                                     (inputRefs.current[index] = el)
                                 }
+                                isOptional={field.isOptional}
                                 onKeyDown={(e) => handleKeyDown(e, index)}
                             />
                         ))}

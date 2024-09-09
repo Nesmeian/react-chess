@@ -3,6 +3,7 @@ const inputFields = [
         name: 'nickname',
         label: 'Nickname',
         type: 'text',
+        isOptional: true,
     },
     {
         name: 'firstName',

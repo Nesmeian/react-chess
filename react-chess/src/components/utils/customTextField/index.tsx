@@ -1,4 +1,4 @@
-import { TextField, useMediaQuery } from '@mui/material'
+import { InputAdornment, TextField, useMediaQuery } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
 
 interface CustomTextFieldProps {
@@ -7,6 +7,7 @@ interface CustomTextFieldProps {
     type: string
     inputRef?: React.RefCallback<HTMLInputElement>
     onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+    isOptional?: boolean
 }
 
 export default function CustomTextField({
@@ -15,6 +16,7 @@ export default function CustomTextField({
     type,
     inputRef,
     onKeyDown,
+    isOptional,
 }: CustomTextFieldProps) {
     const {
         register,
@@ -33,6 +35,19 @@ export default function CustomTextField({
                 typeof errors[name]?.message === 'string'
                     ? errors[name]?.message
                     : ''
+            }
+            slotProps={
+                isOptional
+                    ? {
+                          input: {
+                              endAdornment: (
+                                  <InputAdornment position="end">
+                                      Start
+                                  </InputAdornment>
+                              ),
+                          },
+                      }
+                    : undefined
             }
             color="primary"
             inputRef={inputRef}
