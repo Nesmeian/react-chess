@@ -8,9 +8,9 @@ import { validationSchema } from '../../utils/validation/yupSchema'
 import { yupResolver } from '@hookform/resolvers/yup'
 import CustomTextField from '../../utils/customTextField'
 import Header from '../../loyalt/header'
-import Swal from 'sweetalert2'
 import inputFields from './inputData'
 import checkUsers from '../../localStorage'
+import Alert from '../../utils/alert'
 
 interface RegistrationFormInputs {
     firstName: string
@@ -20,7 +20,13 @@ interface RegistrationFormInputs {
     email: string
     nickname?: string | null
 }
-
+interface UserToAdd {
+    nickname?: string | undefined
+    email: string
+    password: string
+    firstName: string
+    lastName: string
+}
 export default function Registration() {
     const navigate = useNavigate()
     const methods = useForm<RegistrationFormInputs>({
@@ -50,39 +56,24 @@ export default function Registration() {
             const storedData = localStorage.getItem('AuthUsers')
             const nickname: string | null | undefined = data.nickname
 
-            const authUsers: { email: string; nickname: string }[] = storedData
+            const authUsers: UserToAdd[] = storedData
                 ? Array.isArray(JSON.parse(storedData))
                     ? JSON.parse(storedData)
                     : []
                 : []
 
             if (checkAuthUsers('email', data.email)) {
-                await Swal.fire({
-                    icon: 'error',
-                    title: 'This email is already used',
-                    showConfirmButton: false,
-                    timer: 1500,
-                })
+                Alert('error', 'Email')
             } else if (nickname && checkAuthUsers('nickname', nickname)) {
-                await Swal.fire({
-                    icon: 'error',
-                    title: 'This nickname is already used',
-                    showConfirmButton: false,
-                    timer: 1500,
-                })
+                Alert('error', 'Nickname')
             } else {
-                await Swal.fire({
-                    icon: 'success',
-                    title: 'Registration successful',
-                    showConfirmButton: false,
-                    timer: 1500,
-                }).then(() => {
-                    const userToAdd = {
+                Alert('success', 'Registration').then(() => {
+                    const userToAdd: UserToAdd = {
                         email: data.email,
-                        nickname: data.nickname || '',
                         password: data.password,
                         firstName: data.firstName,
                         lastName: data.lastName,
+                        ...(data.nickname ? { nickname: data.nickname } : {}),
                     }
                     authUsers.push(userToAdd)
                     localStorage.setItem('AuthUsers', JSON.stringify(authUsers))
