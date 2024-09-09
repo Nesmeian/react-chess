@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import CustomTextField from '../../utils/customTextField'
 import Header from '../../loyalt/header'
 import Swal from 'sweetalert2'
+import inputFields from './inputData'
 
 interface RegistrationFormInputs {
     firstName: string
@@ -19,7 +20,7 @@ interface RegistrationFormInputs {
 }
 
 export default function Registration() {
-    const navigate = useNavigate() // Hook for navigation
+    const navigate = useNavigate()
     const methods = useForm<RegistrationFormInputs>({
         mode: 'onChange',
         criteriaMode: 'all',
@@ -71,34 +72,6 @@ export default function Registration() {
         [handleSubmit, isValid, onSubmit]
     )
 
-    const fields = [
-        {
-            name: 'firstName',
-            label: 'First Name',
-            type: 'text',
-        },
-        {
-            name: 'lastName',
-            label: 'Last Name',
-            type: 'text',
-        },
-        {
-            name: 'password',
-            label: 'Password',
-            type: 'password',
-        },
-        {
-            name: 'confirmPassword',
-            label: 'Confirm Password',
-            type: 'password',
-        },
-        {
-            name: 'email',
-            label: 'Email',
-            type: 'email',
-        },
-    ]
-
     return (
         <Box className={styles.registration__wrapper}>
             <Header />
@@ -114,7 +87,7 @@ export default function Registration() {
                         >
                             Registration
                         </Typography>
-                        {fields.map((field, index) => (
+                        {inputFields.map((field, index) => (
                             <CustomTextField
                                 key={field.name}
                                 name={field.name}
@@ -126,7 +99,6 @@ export default function Registration() {
                                 onKeyDown={(e) => handleKeyDown(e, index)}
                             />
                         ))}
-
                         <Button
                             variant="contained"
                             type="submit"

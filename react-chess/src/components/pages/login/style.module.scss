@@ -1,18 +1,7 @@
-.registration__form {
-    border: 1px solid black;
-    padding: 40px;
-    width: 400px;
-    border-radius: 20px;
+.jack {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
+    align-items: center;
     gap: 20px;
-}
-.registrationInputs {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-.registration__title {
-    font-size: 18px;
 }

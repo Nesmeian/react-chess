@@ -4,7 +4,6 @@ import {
     maxValidationLength,
     minValidationLength,
 } from '../../../Constants'
-
 export const validationSchema = Yup.object().shape({
     firstName: Yup.string()
         .required(`First Name is required`)
@@ -65,3 +64,8 @@ export const validationSchema = Yup.object().shape({
         )
         .oneOf([Yup.ref(`password`)], `Passwords must match`),
 })
+export const loginSchema = validationSchema.pick([
+    'firstName',
+    'password',
+    'confirmPassword',
+])
