@@ -5,35 +5,66 @@ import Header from '../../loyalt/header'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import CustomTextField from '../../utils/customTextField'
 import styles from './style.module.scss'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { loginSchema } from '../../utils/validation/yupSchema'
 import inputFields from './inputFields'
+import { useCallback, useRef } from 'react'
+
 interface LoginFormInputs {
-    firstName: string
+    nickname?: string | null
     password: string
     confirmPassword: string
+    email: string
 }
 
 export default function Login() {
     const methods = useForm<LoginFormInputs>({
         mode: 'onChange',
         criteriaMode: 'all',
-        resolver: yupResolver(loginSchema),
     })
-    const { formState, handleSubmit } = methods
-    const { isValid } = formState
-    const onSubmit: SubmitHandler<LoginFormInputs> = (data) => console.log(data)
+
+    const { handleSubmit, watch } = methods
+
+    const inputRefs = useRef<(HTMLInputElement | null)[]>([])
+    const fields = watch()
+
+    // Check if all fields are filled
+    const allFieldsFilled = Object.values(fields).every(
+        (value) => value !== '' && value !== null
+    )
+    const onSubmit: SubmitHandler<LoginFormInputs> = useCallback(
+        async (data) => {
+            console.log(data)
+        },
+        []
+    )
+    const handleKeyDown = useCallback(
+        (event: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+            if (event.key === 'Enter') {
+                event.preventDefault()
+
+                if (allFieldsFilled) {
+                    handleSubmit(onSubmit)()
+                } else {
+                    const nextIndex = (index + 1) % inputRefs.current.length
+                    inputRefs.current[nextIndex]?.focus()
+                }
+            }
+        },
+        [handleSubmit, onSubmit, allFieldsFilled]
+    )
+
     return (
-        <Box className={styles.jack}>
+        <Box>
             <Header />
             <FormProvider {...methods}>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    {inputFields.map((el) => (
+                <form onSubmit={handleSubmit(onSubmit)} className={styles.jack}>
+                    {inputFields.map((el, index) => (
                         <CustomTextField
                             key={el.name}
                             name={el.name}
                             label={el.label}
                             type={el.type}
+                            inputRef={(el) => (inputRefs.current[index] = el)}
+                            onKeyDown={(e) => handleKeyDown(e, index)}
                         />
                     ))}
                     <Link
@@ -46,7 +77,7 @@ export default function Login() {
                     <Button
                         variant="contained"
                         type="submit"
-                        disabled={!isValid}
+                        disabled={!allFieldsFilled}
                     >
                         Submit
                     </Button>

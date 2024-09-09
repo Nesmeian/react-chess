@@ -83,7 +83,8 @@ export const validationSchema = Yup.object().shape({
 })
 
 export const loginSchema = validationSchema.pick([
-    'firstName',
+    'nickname',
     'password',
     'confirmPassword',
+    'email',
 ])

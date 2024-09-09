@@ -1,28 +1,13 @@
 const inputFields = [
     {
-        name: 'firstName',
-        label: 'First Name',
-        type: 'text',
-    },
-    {
-        name: 'lastName',
-        label: 'Last Name',
+        name: 'mail',
+        label: 'Nickname or Email',
         type: 'text',
     },
     {
         name: 'password',
         label: 'Password',
         type: 'password',
-    },
-    {
-        name: 'confirmPassword',
-        label: 'Confirm Password',
-        type: 'password',
-    },
-    {
-        name: 'email',
-        label: 'Email',
-        type: 'email',
     },
 ]
 export default inputFields
