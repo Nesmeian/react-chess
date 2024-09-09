@@ -17,6 +17,7 @@ interface RegistrationFormInputs {
     password: string
     confirmPassword: string
     email: string
+    nickname?: string | undefined | null
 }
 
 export default function Registration() {

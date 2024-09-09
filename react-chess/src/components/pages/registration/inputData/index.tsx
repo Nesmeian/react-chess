@@ -1,5 +1,10 @@
 const inputFields = [
     {
+        name: 'nickname',
+        label: 'Nickname',
+        type: 'text',
+    },
+    {
         name: 'firstName',
         label: 'First Name',
         type: 'text',

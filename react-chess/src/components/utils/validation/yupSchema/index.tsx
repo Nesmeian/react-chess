@@ -3,7 +3,9 @@ import {
     engPattern,
     maxValidationLength,
     minValidationLength,
+    optionalPatern,
 } from '../../../Constants'
+
 export const validationSchema = Yup.object().shape({
     firstName: Yup.string()
         .required(`First Name is required`)
@@ -13,11 +15,24 @@ export const validationSchema = Yup.object().shape({
         )
         .max(
             maxValidationLength,
-            `First Name must be less than ${maxValidationLength} charters`
+            `First Name must be less than ${maxValidationLength} characters`
         )
         .matches(
             engPattern,
-            `First Name can only contain engilsh letters, numbers, and underscores`
+            `First Name can only contain English letters, numbers, and underscores`
+        ),
+    nickname: Yup.string()
+        .nullable()
+        .transform((curr, orig) => (orig === '' ? null : curr)) // Преобразование пустой строки в null
+        .test(
+            'customValidation',
+            'Nickname must be either empty or contain only English letters up to 10 characters',
+            (value) => {
+                if (value && value.length > 2) {
+                    return optionalPatern.test(value) // Проверка на английские буквы и длину
+                }
+                return true // Если длина 2 или меньше, не применяем дополнительные проверки
+            }
         ),
     lastName: Yup.string()
         .required(`Last Name is required`)
@@ -27,43 +42,46 @@ export const validationSchema = Yup.object().shape({
         )
         .max(
             maxValidationLength,
-            `First Name must be less than ${maxValidationLength} charters`
+            `Last Name must be less than ${maxValidationLength} characters`
         )
         .matches(
             engPattern,
-            `First Name can only contain engilsh letters, numbers, and underscores`
+            `Last Name can only contain English letters, numbers, and underscores`
         ),
     email: Yup.string()
         .required(`Email is required`)
         .email(`Invalid email format`)
         .max(
             maxValidationLength,
-            `First Name must be less than ${maxValidationLength} charters`
+            `Email must be less than ${maxValidationLength} characters`
         )
         .matches(
             engPattern,
-            `First Name can only contain engilsh letters, numbers, and underscores`
+            `Email can only contain English letters, numbers, and underscores`
         ),
-
     password: Yup.string()
         .required(`Password is required`)
-        .min(minValidationLength, `Password must be at least 6 characters`)
+        .min(
+            minValidationLength,
+            `Password must be at least ${minValidationLength} characters`
+        )
         .max(
             maxValidationLength,
-            `First Name must be less than ${maxValidationLength} charters`
+            `Password must be less than ${maxValidationLength} characters`
         )
         .matches(
             engPattern,
-            `First Name can only contain engilsh letters, numbers, and underscores`
+            `Password can only contain English letters, numbers, and underscores`
         ),
     confirmPassword: Yup.string()
         .required(`Confirm Password is required`)
         .max(
             maxValidationLength,
-            `First Name must be less than ${maxValidationLength} charters`
+            `Confirm Password must be less than ${maxValidationLength} characters`
         )
         .oneOf([Yup.ref(`password`)], `Passwords must match`),
 })
+
 export const loginSchema = validationSchema.pick([
     'firstName',
     'password',
