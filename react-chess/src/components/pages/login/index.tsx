@@ -9,10 +9,8 @@ import inputFields from './inputFields'
 import { useCallback, useRef } from 'react'
 
 interface LoginFormInputs {
-    nickname?: string | null
-    password: string
-    confirmPassword: string
     email: string
+    password: string
 }
 
 export default function Login() {
@@ -22,20 +20,48 @@ export default function Login() {
     })
 
     const { handleSubmit, watch } = methods
-
     const inputRefs = useRef<(HTMLInputElement | null)[]>([])
     const fields = watch()
 
     // Check if all fields are filled
-    const allFieldsFilled = Object.values(fields).every(
-        (value) => value !== '' && value !== null
-    )
+    const allFieldsFilled = inputFields.every((field) => {
+        const fieldName = field.name as keyof LoginFormInputs // Приведение типа
+        return fields[fieldName]
+    })
+
     const onSubmit: SubmitHandler<LoginFormInputs> = useCallback(
         async (data) => {
-            console.log(data)
+            const storageData = JSON.parse(
+                localStorage.getItem('AuthUsers') || '[]'
+            )
+            const nickname = storageData.map((e) => e.nickname)
+            const mail = storageData.map((e) => e.email)
+            mail.forEach((el, index) => {
+                if (data.email === el) {
+                    console.log('el')
+                    console.log(data.email, el)
+                    if (storageData[index].password === data.password) {
+                        console.log('YES')
+                    } else {
+                        console.log('NOPE')
+                    }
+                }
+            })
+            nickname.forEach((el, index) => {
+                if (data.email === el) {
+                    console.log('el')
+                    console.log(data.email, el)
+                    if (storageData[index].password === data.password) {
+                        console.log('YES')
+                    } else {
+                        console.log('NOPE')
+                    }
+                }
+            })
         },
         []
     )
+
     const handleKeyDown = useCallback(
         (event: React.KeyboardEvent<HTMLInputElement>, index: number) => {
             if (event.key === 'Enter') {

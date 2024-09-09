@@ -1,6 +1,6 @@
 const inputFields = [
     {
-        name: 'mail',
+        name: 'email',
         label: 'Nickname or Email',
         type: 'text',
     },
