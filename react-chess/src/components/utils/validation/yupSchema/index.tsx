@@ -3,7 +3,6 @@ import {
     engPattern,
     maxValidationLength,
     minValidationLength,
-    optionalPatern,
 } from '../../../Constants'
 
 export const validationSchema = Yup.object().shape({
@@ -25,13 +24,18 @@ export const validationSchema = Yup.object().shape({
         .nullable()
         .transform((curr, orig) => (orig === '' ? null : curr)) // Преобразование пустой строки в null
         .test(
-            'customValidation',
-            'Nickname must be either empty or contain only English letters up to 10 characters',
+            'valid-nickname',
+            `Nickname must be either empty or contain only English letters (up to ${maxValidationLength} characters)`,
             (value) => {
-                if (value && value.length > 2) {
-                    return optionalPatern.test(value) // Проверка на английские буквы и длину
+                // Если значение не пустое, проверяем длину и соответствие паттерну
+                if (value) {
+                    return (
+                        value.length <= maxValidationLength &&
+                        engPattern.test(value)
+                    )
                 }
-                return true // Если длина 2 или меньше, не применяем дополнительные проверки
+                // Если значение пустое, валидация проходит
+                return true
             }
         ),
     lastName: Yup.string()
