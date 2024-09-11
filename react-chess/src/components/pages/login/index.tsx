@@ -1,4 +1,4 @@
-import { Link as LinkRouter } from 'react-router-dom'
+import { Link as LinkRouter, useNavigate } from 'react-router-dom'
 import { myAppLink } from '../../Constants'
 import { Box, Button, Link } from '@mui/material'
 import Header from '../../loyalt/header'
@@ -7,59 +7,42 @@ import CustomTextField from '../../utils/customTextField'
 import styles from './style.module.scss'
 import inputFields from './inputFields'
 import { useCallback, useRef } from 'react'
-
-interface LoginFormInputs {
+import checkUser from '../../utils/validation/checkUser'
+export interface LoginFormInputs {
     email: string
     password: string
 }
-
+export interface AuthUser {
+    email: string
+    password: string
+    nickname: string
+}
 export default function Login() {
     const methods = useForm<LoginFormInputs>({
         mode: 'onChange',
         criteriaMode: 'all',
     })
-
+    const navigate = useNavigate()
     const { handleSubmit, watch } = methods
     const inputRefs = useRef<(HTMLInputElement | null)[]>([])
     const fields = watch()
 
-    // Check if all fields are filled
     const allFieldsFilled = inputFields.every((field) => {
         const fieldName = field.name as keyof LoginFormInputs // Приведение типа
         return fields[fieldName]
     })
-
     const onSubmit: SubmitHandler<LoginFormInputs> = useCallback(
         async (data) => {
-            const storageData = JSON.parse(
+            const storageData: AuthUser[] = JSON.parse(
                 localStorage.getItem('AuthUsers') || '[]'
             )
-            const nickname = storageData.map((e) => e.nickname)
+            const nickname = storageData.map((e) => {
+                return e.nickname
+            })
             const mail = storageData.map((e) => e.email)
-            mail.forEach((el, index) => {
-                if (data.email === el) {
-                    console.log('el')
-                    console.log(data.email, el)
-                    if (storageData[index].password === data.password) {
-                        console.log('YES')
-                    } else {
-                        console.log('NOPE')
-                    }
-                }
-            })
-            nickname.forEach((el, index) => {
-                if (data.email === el) {
-                    console.log('el')
-                    console.log(data.email, el)
-                    if (storageData[index].password === data.password) {
-                        console.log('YES')
-                    } else {
-                        console.log('NOPE')
-                    }
-                }
-            })
+            checkUser(nickname, mail, storageData, data, navigate)
         },
-        []
+        [navigate]
     )
 
     const handleKeyDown = useCallback(
