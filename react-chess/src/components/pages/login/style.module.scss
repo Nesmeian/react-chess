@@ -1,8 +1,22 @@
-.jack {
+.form {
     width: 400px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    position: absolute;
+    border: 1px solid black;
+    padding: 40px;
+    width: 50%;
+    border-radius: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    align-self: center;
     gap: 20px;
+}
+.login__wrpapper {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }

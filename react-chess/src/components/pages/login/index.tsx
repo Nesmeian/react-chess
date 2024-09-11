@@ -1,6 +1,5 @@
-import { Link as LinkRouter, useNavigate } from 'react-router-dom'
-import { myAppLink } from '../../Constants'
-import { Box, Button, Link } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import { Box, Button, Typography } from '@mui/material'
 import Header from '../../loyalt/header'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import CustomTextField from '../../utils/customTextField'
@@ -31,6 +30,7 @@ export default function Login() {
         const fieldName = field.name as keyof LoginFormInputs // Приведение типа
         return fields[fieldName]
     })
+
     const onSubmit: SubmitHandler<LoginFormInputs> = useCallback(
         async (data) => {
             const storageData: AuthUser[] = JSON.parse(
@@ -62,10 +62,11 @@ export default function Login() {
     )
 
     return (
-        <Box>
+        <Box className={styles.login__wrpapper}>
             <Header />
             <FormProvider {...methods}>
-                <form onSubmit={handleSubmit(onSubmit)} className={styles.jack}>
+                <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+                    <Typography variant="h1"> Login</Typography>
                     {inputFields.map((el, index) => (
                         <CustomTextField
                             key={el.name}
@@ -76,13 +77,6 @@ export default function Login() {
                             onKeyDown={(e) => handleKeyDown(e, index)}
                         />
                     ))}
-                    <Link
-                        component={LinkRouter}
-                        to={`${myAppLink}/`}
-                        color="inherit"
-                    >
-                        Go back to Home
-                    </Link>
                     <Button
                         variant="contained"
                         type="submit"

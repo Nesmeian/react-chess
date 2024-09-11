@@ -12,37 +12,57 @@ export default function Header() {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
-                <Toolbar>
+                <Toolbar className={styles.header__wrapper}>
                     <img
                         src={logo}
                         alt="Logo"
                         width={40}
-                        style={{ borderRadius: '50%' }}
+                        style={{
+                            borderRadius: '50%',
+                        }}
                     ></img>
                     <Typography
                         variant="h6"
                         component="div"
-                        sx={{ flexGrow: 1 }}
+                        className={styles.title}
                     >
-                        News
+                        Chess
                     </Typography>
                     {location.pathname === `${myAppLink}/login` && (
-                        <Link
-                            color="inherit"
-                            component={LinkRouter}
-                            to={`${myAppLink}/registration`}
-                        >
-                            Registration
-                        </Link>
+                        <Box className={styles.links__container}>
+                            <Link
+                                component={LinkRouter}
+                                to={`${myAppLink}/registration`}
+                                color="inherit"
+                            >
+                                Registration
+                            </Link>
+                            <Link
+                                component={LinkRouter}
+                                to={`${myAppLink}/`}
+                                color="inherit"
+                            >
+                                Home
+                            </Link>
+                        </Box>
                     )}
                     {location.pathname === `${myAppLink}/registration` && (
-                        <Link
-                            component={LinkRouter}
-                            to={`${myAppLink}/login`}
-                            color="inherit"
-                        >
-                            Login
-                        </Link>
+                        <Box className={styles.links__container}>
+                            <Link
+                                component={LinkRouter}
+                                to={`${myAppLink}/login`}
+                                color="inherit"
+                            >
+                                Login
+                            </Link>
+                            <Link
+                                component={LinkRouter}
+                                to={`${myAppLink}/`}
+                                color="inherit"
+                            >
+                                Home
+                            </Link>
+                        </Box>
                     )}
                     {!(
                         location.pathname === `${myAppLink}/registration` ||
