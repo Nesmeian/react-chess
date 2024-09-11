@@ -10,30 +10,17 @@ export default function checkUser(
     data: LoginFormInputs,
     navigate: NavigateFunction
 ) {
-    mail.forEach((el, index) => {
-        if (data.email === el) {
-            console.log('el')
-            console.log(data.email, el)
-            if (storageData[index].password === data.password) {
-                Alert('success', 'mail').then(() => {
-                    navigate(`${myAppLink}/`)
-                })
-            } else {
-                Alert('error', 'Nope')
-            }
+    if (nickname.includes(data.email) || mail.includes(data.email)) {
+        const user = storageData.find((user) => user.email === data.email)
+
+        if (user && user.password === data.password) {
+            Alert('success', 'Login successful', true).then(() => {
+                navigate(`${myAppLink}/`)
+            })
+        } else {
+            Alert('error', 'Incorrect password. Please try again.', true)
         }
-    })
-    nickname.forEach((el, index) => {
-        if (data.email === el) {
-            console.log('el')
-            console.log(data.email, el)
-            if (storageData[index].password === data.password) {
-                Alert('success', 'nickName').then(() => {
-                    navigate(`${myAppLink}/`)
-                })
-            } else {
-                Alert('error', 'Nope')
-            }
-        }
-    })
+    } else {
+        Alert('error', 'No account found with this email or nickname.', true)
+    }
 }
