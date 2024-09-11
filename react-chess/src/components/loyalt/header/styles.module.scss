@@ -1,4 +1,14 @@
+.header__wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
 .links__container {
     display: flex;
     gap: 20px;
+    position: relative;
+}
+.title {
+    position: absolute;
+    left: 50%;
 }

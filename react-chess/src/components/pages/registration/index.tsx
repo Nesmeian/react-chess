@@ -8,7 +8,9 @@ import { validationSchema } from '../../utils/validation/yupSchema'
 import { yupResolver } from '@hookform/resolvers/yup'
 import CustomTextField from '../../utils/customTextField'
 import Header from '../../loyalt/header'
-import Swal from 'sweetalert2'
+import inputFields from './inputData'
+import checkUsers from '../../localStorage'
+import Alert from '../../utils/alert'
 
 interface RegistrationFormInputs {
     firstName: string
@@ -16,10 +18,17 @@ interface RegistrationFormInputs {
     password: string
     confirmPassword: string
     email: string
+    nickname?: string | null
 }
-
+interface UserToAdd {
+    nickname?: string | undefined
+    email: string
+    password: string
+    firstName: string
+    lastName: string
+}
 export default function Registration() {
-    const navigate = useNavigate() // Hook for navigation
+    const navigate = useNavigate()
     const methods = useForm<RegistrationFormInputs>({
         mode: 'onChange',
         criteriaMode: 'all',
@@ -30,25 +39,45 @@ export default function Registration() {
 
     const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
+    const checkAuthUsers = (property: string, value: string): boolean => {
+        const storedData = localStorage.getItem('AuthUsers')
+        if (!storedData) {
+            return false
+        }
+
+        const authUsers: { [key: string]: string }[] = JSON.parse(storedData)
+        return authUsers.some((el) => el[property] === value)
+    }
+
     const onSubmit: SubmitHandler<RegistrationFormInputs> = useCallback(
         async (data) => {
-            const dataName = `${data.email} ${data.firstName} ${data.lastName}`
-            if (localStorage.getItem(dataName)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'This email is already used',
-                    showConfirmButton: false,
-                    timer: 1500,
-                })
+            checkUsers()
+
+            const storedData = localStorage.getItem('AuthUsers')
+            const nickname: string | null | undefined = data.nickname
+
+            const authUsers: UserToAdd[] = storedData
+                ? Array.isArray(JSON.parse(storedData))
+                    ? JSON.parse(storedData)
+                    : []
+                : []
+
+            if (checkAuthUsers('email', data.email)) {
+                Alert('error', 'Email')
+            } else if (nickname && checkAuthUsers('nickname', nickname)) {
+                Alert('error', 'Nickname')
             } else {
-                await Swal.fire({
-                    icon: 'success',
-                    title: 'Registration successful',
-                    showConfirmButton: false,
-                    timer: 1500,
-                }).then(() => {
-                    localStorage.setItem(dataName, JSON.stringify(data))
-                    navigate(`${myAppLink}/`) // Redirect to home page
+                Alert('success', 'Registration').then(() => {
+                    const userToAdd: UserToAdd = {
+                        email: data.email,
+                        password: data.password,
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        ...(data.nickname ? { nickname: data.nickname } : {}),
+                    }
+                    authUsers.push(userToAdd)
+                    localStorage.setItem('AuthUsers', JSON.stringify(authUsers))
+                    navigate(`${myAppLink}/`)
                 })
             }
         },
@@ -71,34 +100,6 @@ export default function Registration() {
         [handleSubmit, isValid, onSubmit]
     )
 
-    const fields = [
-        {
-            name: 'firstName',
-            label: 'First Name',
-            type: 'text',
-        },
-        {
-            name: 'lastName',
-            label: 'Last Name',
-            type: 'text',
-        },
-        {
-            name: 'password',
-            label: 'Password',
-            type: 'password',
-        },
-        {
-            name: 'confirmPassword',
-            label: 'Confirm Password',
-            type: 'password',
-        },
-        {
-            name: 'email',
-            label: 'Email',
-            type: 'email',
-        },
-    ]
-
     return (
         <Box className={styles.registration__wrapper}>
             <Header />
@@ -114,7 +115,7 @@ export default function Registration() {
                         >
                             Registration
                         </Typography>
-                        {fields.map((field, index) => (
+                        {inputFields.map((field, index) => (
                             <CustomTextField
                                 key={field.name}
                                 name={field.name}
@@ -123,14 +124,14 @@ export default function Registration() {
                                 inputRef={(el) =>
                                     (inputRefs.current[index] = el)
                                 }
+                                isOptional={field.isOptional}
                                 onKeyDown={(e) => handleKeyDown(e, index)}
                             />
                         ))}
-
                         <Button
                             variant="contained"
                             type="submit"
-                            disabled={!isValid} // Кнопка отключена, если форма не валидна
+                            disabled={!isValid}
                         >
                             Submit
                         </Button>
