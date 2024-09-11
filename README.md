@@ -6,6 +6,6 @@
   - [x] Vite + React + TypeScript
   - [x] ESLint + Prettier
 - [x] Add Routing
-- [ ] Add Registration and Login Pages
+- [x] Add Registration and Login Pages
 - [ ] Add Game Page
 - [ ] Add Chat
